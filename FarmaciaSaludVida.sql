@@ -300,3 +300,85 @@ GROUP BY c.NombreCompleto
 HAVING COUNT(v.VentaID) = 0
 ORDER BY c.NombreCompleto;
 GO
+
+GO
+
+CREATE PROCEDURE usp_ConsultarMedicamentos
+
+    
+    @CategoriaID INT
+
+AS
+BEGIN
+
+    
+
+    SET NOCOUNT ON;
+
+    SELECT
+        m.MedicamentoID,
+        m.NombreComercial,
+        m.PrincipioActivo,
+        c.NombreCategoria,
+        m.PrecioUnitario,
+        m.Stock
+
+    FROM Medicamentos m
+    INNER JOIN Categorias c
+        ON m.CategoriaID = c.CategoriaID
+
+    WHERE m.CategoriaID = @CategoriaID;
+
+END;
+GO
+
+
+EXEC usp_ConsultarMedicamentos 1;
+GO
+
+GO
+
+CREATE PROCEDURE usp_RegistrarCliente
+
+    
+    @Cedula VARCHAR(20),
+    @NombreCompleto VARCHAR(100),
+    @Telefono VARCHAR(20),
+    @CorreoElectronico VARCHAR(100),
+    @Direccion VARCHAR(150)
+
+AS
+BEGIN
+
+    
+
+    SET NOCOUNT ON;
+
+    INSERT INTO Clientes (
+        Cedula,
+        NombreCompleto,
+        Telefono,
+        CorreoElectronico,
+        Direccion
+    )
+
+    VALUES (
+        @Cedula,
+        @NombreCompleto,
+        @Telefono,
+        @CorreoElectronico,
+        @Direccion
+    );
+
+END;
+GO
+
+
+EXEC usp_RegistrarCliente
+    '1313131313',
+    'Juan Carlos Restrepo',
+    '3109876543',
+    'juan.restrepo@gmail.com',
+    'Bello, Antioquia';
+GO
+
